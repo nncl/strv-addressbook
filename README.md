@@ -56,3 +56,11 @@ Accessing on browser through this url: `http://localhost:8000`.
 ## Documentation
 
 We've documented this project on [Swagger](https://app.swaggerhub.com/apis/nncl/strv-address-book).
+
+## Updates
+
+For all updates we create branches, as you might know. Depending on the type of the update, we specify a initial slug, such as either `fix/<update-name>` or `enhancement/<updated-name>`.
+
+E.g.: if somehow the sign in resource is not working properly anymore, we create a branch called `fix/resource-signin`.
+
+Knowing this we also update the api version on `package.json` and Swaggerhub.
