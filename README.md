@@ -28,6 +28,8 @@ First, install all the development dependencies running:
 npm install
 ```
 
+If we're not on heroku environment, we'll need to setup the environment variables. To do this, duplicate the `./env.example.js` file and rename it to `env.js`. Replace the required variables. 
+
 And then just run:
 
 ```
