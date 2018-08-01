@@ -36,6 +36,23 @@ And then just run:
 npm run dev
 ```
 
+#### Port
+
+You can also run this project in your own custom port. Just assign a port number when starting the app:
+
+```
+PORT=<port-number> npm start
+PORT=<port-number> npm run dev
+```
+
+E.g.:
+
+```
+PORT=8000 npm start
+```
+
+Accessing on browser through this url: `http://localhost:8000`.
+
 ## Documentation
 
 We've documented this project on [Swagger](https://app.swaggerhub.com/apis/nncl/strv-address-book).
