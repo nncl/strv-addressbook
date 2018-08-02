@@ -48,7 +48,7 @@ Actions.doCreate = (req, res) => {
         log.info('Response for account creation', err, doc)
 
         if (err) return callback('Error creating user. Please check the logs.', null, res)
-        callback(null, 'User created successfully', res)
+        callback(null, {message: 'User created successfully'}, res)
     })
 
 };
