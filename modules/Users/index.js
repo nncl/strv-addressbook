@@ -3,6 +3,6 @@
 const router = require('express').Router(),
     Actions = require('./actions')
 
-router.get('/', Actions.doGet)
+router.post('/', Actions.doCreate)
 
 module.exports = router
