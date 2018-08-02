@@ -105,4 +105,9 @@ Actions.doAuthentication = (req, res) => {
 
 };
 
+Actions.doList = (req, res) => {
+    res.send('hello') // fixme
+    // todo
+}
+
 module.exports = Actions;
