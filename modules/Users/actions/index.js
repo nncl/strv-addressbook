@@ -1,6 +1,7 @@
 'use strict';
 
-const UserOrganism = require('../organisms/organism-user')
+const jwt = require('jsonwebtoken'),
+    UserOrganism = require('../organisms/organism-user')
 
 /**
  * @description
@@ -50,6 +51,57 @@ Actions.doCreate = (req, res) => {
         if (err) return callback('Error creating user. Please check the logs.', null, res)
         callback(null, {message: 'User created successfully'}, res)
     })
+
+};
+
+Actions.doAuthentication = (req, res) => {
+
+    /**
+     * Validate required fields
+     */
+
+    req.checkBody('email', 'E-mail address is required')
+        .notEmpty()
+        .isEmail()
+        .withMessage('Please add a valid email address');
+    req.checkBody('password', 'Password is required').notEmpty();
+
+    const errors = req.validationErrors();
+    if (errors) return callback(errors, null, res)
+
+    const log = require('../../Log').logger(`${req.body.email}.log`)
+    let query = {email: req.body.email}
+
+    UserOrganism
+        .findOne(query, (err, doc) => {
+            log.info('Response for account finding', doc, err)
+
+            if (err) return callback('Error finding user. Please check the logs.', null, res)
+            if (!doc) return callback('User not found', null, res)
+
+            // Let's compare the passwords
+            doc.comparePassword(req.body.password, (err, isMatch) => {
+                log.info('Response for compare passwords', err, isMatch)
+
+                if (!err && isMatch) {
+
+                    const expiresIn = process.env.EXPIRES_IN ? process.env.EXPIRES_IN : require('../../../env').settings.EXPIRES_IN,
+                        secret = process.env.SECRET ? process.env.SECRET : require('../../../env').settings.SECRET
+
+                    const token = jwt.sign({doc}, secret, {
+                        expiresIn: expiresIn
+                    });
+
+                    doc = doc.toObject() // We have to parse it otherwise wouldn't be possible add token to the same object
+                    doc.token = token
+
+                    callback(null, doc, res)
+
+                } else {
+                    return callback('E-mail address or password is incorrect', null, res)
+                }
+            })
+        })
 
 };
 
