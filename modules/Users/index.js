@@ -9,5 +9,6 @@ router.post('/auth', Actions.doAuthentication)
 router.get('/', auth, Actions.doList)
 router.get('/:id', auth, Actions.doListById)
 router.put('/:id', auth, Actions.doUpdate)
+router.delete('/:id', auth, Actions.doDelete)
 
 module.exports = router

@@ -156,6 +156,9 @@ Actions.doListById = (req, res) => {
  * Simply update a user information. Note that password is not required, but when required
  * the same rules are applied.
  *
+ * For now every user with a valid token can update a document. If required, the best thing to do here is implement either a new auth middleware
+ * or something such as ACL rules.
+ *
  * @param req
  * @param res
  * @returns {*}
@@ -192,6 +195,29 @@ Actions.doUpdate = (req, res) => {
 
         if (err) return callback('Error updating document. Please check the logs.', null, res)
         callback(null, doc, res)
+    })
+}
+
+/**
+ * @description
+ * Delete user by ID.
+ * For now every user with a valid token can delete a document. If required, the best thing to do here is implement either a new auth middleware
+ * or something such as ACL rules.
+ *
+ * @param req
+ * @param res
+ */
+
+Actions.doDelete = (req, res) => {
+
+    const query = {_id: req.params.id},
+        log = require('../../Log').logger(`${req.body.email}.log`)
+
+    UserOrganism.remove(query, (err, doc) => {
+        log.info('Response for account delete', err, doc)
+
+        if (err) return callback('Error deleting document. Please check the logs.', null, res)
+        callback(null, {message: 'User deleted successfully'}, res)
     })
 }
 
