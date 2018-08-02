@@ -106,8 +106,16 @@ Actions.doAuthentication = (req, res) => {
 };
 
 Actions.doList = (req, res) => {
-    res.send('hello') // fixme
-    // todo
+    const options = {
+        select: '_id email',
+        page: parseInt(req.query.page) || 1,
+        limit: parseInt(req.query.limit) || 10
+    }
+
+    UserOrganism.paginate({}, options, (err, docs) => {
+        if (err) return callback('Error listing documents. Please check the logs.', null, res)
+        callback(null, docs, res)
+    })
 }
 
 module.exports = Actions;
