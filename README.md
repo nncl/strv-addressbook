@@ -2,6 +2,8 @@
 
 Hi. You're gonna find all information you need to setup this project either on your computer or on any unix server.
 
+Current production URL: https://strv-addressbook-api.herokuapp.com.
+
 ## Getting Started
 
 First of all, you'll need `npm` installed globally. After this, run:
