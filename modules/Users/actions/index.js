@@ -11,11 +11,12 @@ const jwt = require('jsonwebtoken'),
  * @param {Object | String | Number | Boolean} err
  * @param {Object | String | Number} data
  * @param {Object} res
+ * @param {Number} statusCode Not required
  * @returns {*}
  */
 
-const callback = (err, data, res) => {
-    if (err) return res.status(400).json({success: false, message: err});
+const callback = (err, data, res, statusCode) => {
+    if (err) return res.status(statusCode || 400).json({success: false, message: err});
     res.json({success: true, data});
 }
 
@@ -41,7 +42,7 @@ Actions.doCreate = (req, res) => {
         .withMessage('Password must have at least 6 characters');
 
     const errors = req.validationErrors();
-    if (errors) return callback(errors, null, res)
+    if (errors) return callback(errors, null, res, 422)
 
     const user = new UserOrganism(req.body),
         log = require('../../Log').logger(`${user.email}.log`)
@@ -77,7 +78,7 @@ Actions.doAuthentication = (req, res) => {
     req.checkBody('password', 'Password is required').notEmpty();
 
     const errors = req.validationErrors();
-    if (errors) return callback(errors, null, res)
+    if (errors) return callback(errors, null, res, 422)
 
     const log = require('../../Log').logger(`${req.body.email}.log`)
     let query = {email: req.body.email}
@@ -147,7 +148,7 @@ Actions.doList = (req, res) => {
 Actions.doListById = (req, res) => {
     UserOrganism.findOne({_id: req.params.id}, (err, doc) => {
         if (err) return callback('Error listing document.', null, res)
-        if (!doc) return callback('User not found', null, res)
+        if (!doc) return callback('User not found', null, res, 404)
         callback(null, doc, res)
     })
 }
@@ -174,7 +175,7 @@ Actions.doUpdate = (req, res) => {
     req.checkBody('email', 'Please add a valid email address').isEmail();
 
     const errors = req.validationErrors();
-    if (errors) return callback(errors, null, res)
+    if (errors) return callback(errors, null, res, 422)
 
     const query = {_id: req.params.id},
         log = require('../../Log').logger(`${req.body.email}.log`),
@@ -187,7 +188,7 @@ Actions.doUpdate = (req, res) => {
 
     // If has password, as long is not required, we must encrypt it
     if (req.body.password) {
-        if (req.body.password.length < 6) return callback('Password must have at least 6 characters', null, res)
+        if (req.body.password.length < 6) return callback('Password must have at least 6 characters', null, res, 422)
         update.$set.password = bcrypt.hashSync(req.body.password, 10);
     }
 
