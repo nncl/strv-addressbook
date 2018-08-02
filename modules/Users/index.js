@@ -7,5 +7,6 @@ const router = require('express').Router(),
 router.post('/', Actions.doCreate)
 router.post('/auth', Actions.doAuthentication)
 router.get('/', auth, Actions.doList)
+router.put('/:id', auth, Actions.doUpdate)
 
 module.exports = router

@@ -1,7 +1,8 @@
 'use strict';
 
 const jwt = require('jsonwebtoken'),
-    UserOrganism = require('../organisms/organism-user')
+    UserOrganism = require('../organisms/organism-user'),
+    bcrypt = require('bcrypt')
 
 /**
  * @description
@@ -132,6 +133,50 @@ Actions.doList = (req, res) => {
     UserOrganism.paginate({}, options, (err, docs) => {
         if (err) return callback('Error listing documents. Please check the logs.', null, res)
         callback(null, docs, res)
+    })
+}
+
+/**
+ * @description
+ * Simply update a user information. Note that password is not required, but when required
+ * the same rules are applied.
+ *
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+
+Actions.doUpdate = (req, res) => {
+
+    /**
+     * Validate required fields
+     */
+
+    req.checkBody('email', 'Please add a valid email address').isEmail();
+
+    const errors = req.validationErrors();
+    if (errors) return callback(errors, null, res)
+
+    const query = {_id: req.params.id},
+        log = require('../../Log').logger(`${req.body.email}.log`),
+        update = {
+            $set: {
+                updated_at: Date.now(),
+                email: req.body.email
+            }
+        }
+
+    // If has password, as long is not required, we must encrypt it
+    if (req.body.password) {
+        if (req.body.password.length < 6) return callback('Password must have at least 6 characters', null, res)
+        update.$set.password = bcrypt.hashSync(req.body.password, 10);
+    }
+
+    UserOrganism.update(query, update, (err, doc) => {
+        log.info('Response for account update', err, doc)
+
+        if (err) return callback('Error updating document. Please check the logs.', null, res)
+        callback(null, doc, res)
     })
 }
 
