@@ -1,10 +1,10 @@
 const express = require('express'),
     router = express.Router(),
-    env = process.env.TITLE ? process.env.TITLE : require('../env')
+    title = process.env.TITLE ? process.env.TITLE : require('../env').settings.title
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-    res.render('index', {title: env.settings ? env.settings.title : env});
-});
+    res.render('index', {title})
+})
 
-module.exports = router;
+module.exports = router

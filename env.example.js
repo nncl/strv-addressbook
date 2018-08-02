@@ -1,3 +1,4 @@
 module.exports.settings = {
-    "title" : "STRV Address Book API"
+    "title" : "STRV Address Book API",
+    "mongodbUrl" : ""
 }
