@@ -88,7 +88,7 @@ Actions.doAuthentication = (req, res) => {
             log.info('Response for account finding', doc, err)
 
             if (err) return callback('Error finding user. Please check the logs.', null, res)
-            if (!doc) return callback('User not found', null, res)
+            if (!doc) return callback('User not found', null, res, 404)
 
             // Let's compare the passwords
             doc.comparePassword(req.body.password, (err, isMatch) => {
