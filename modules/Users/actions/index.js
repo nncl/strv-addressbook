@@ -92,7 +92,7 @@ Actions.doAuthentication = (req, res) => {
                         expiresIn: expiresIn
                     });
 
-                    doc = doc.toObject() // We have to parse it otherwise wouldn't be possible add token to the same object
+                    doc = doc.toObject() // We have to parse it otherwise wouldn't be possible to add the token to the same object
                     doc.token = token
 
                     callback(null, doc, res)
