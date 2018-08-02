@@ -147,6 +147,7 @@ Actions.doList = (req, res) => {
 Actions.doListById = (req, res) => {
     UserOrganism.findOne({_id: req.params.id}, (err, doc) => {
         if (err) return callback('Error listing document.', null, res)
+        if (!doc) return callback('User not found', null, res)
         callback(null, doc, res)
     })
 }
