@@ -27,7 +27,7 @@ const callback = (err, data, res, statusCode) => {
  * @type {{}}
  */
 
-const Actions = {};
+const Actions = {}
 
 Actions.doCreate = (req, res) => {
 
@@ -54,7 +54,7 @@ Actions.doCreate = (req, res) => {
         callback(null, {message: 'User created successfully'}, res)
     })
 
-};
+}
 
 /**
  * @description
@@ -114,7 +114,7 @@ Actions.doAuthentication = (req, res) => {
             })
         })
 
-};
+}
 
 /**
  * @description
