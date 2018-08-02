@@ -1,13 +1,29 @@
+'use strict'
+
 const createError = require('http-errors'),
     express = require('express'),
     path = require('path'),
     cookieParser = require('cookie-parser'),
-    logger = require('morgan')
+    logger = require('morgan'),
+    expressValidator = require('express-validator')
 
 const indexRouter = require('./routes/index'),
-    usersRouter = require('./routes/users')
+    apiRouter = require('./routes/api')
 
 const app = express()
+
+require('./config/database')
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, PATCH, DELETE, OPTIONS');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next()
+})
+
+app.options('*', (req, res) => {
+    res.sendStatus(200)
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -18,9 +34,22 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(expressValidator({
+    customValidators: {
+        isArray: (value) => {
+            return Array.isArray(value);
+        },
+        isArrayLengthValid: (array) => {
+            return array.length == 2
+        },
+        hasMinLength: (data) => {
+            return data.length >= 6
+        }
+    }
+}))
 
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
+app.use('/api/v1', apiRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
