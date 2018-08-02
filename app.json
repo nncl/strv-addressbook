@@ -1,0 +1,9 @@
+{
+  "environments": {
+    "test": {
+      "env": {
+        "APP_URI": "https://strv-addressbook-api.herokuapp.com/api/v1"
+      }
+    }
+  }
+}
