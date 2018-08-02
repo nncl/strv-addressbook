@@ -1,7 +1,8 @@
 'use strict';
 
 const jwt = require('jsonwebtoken'),
-    UserOrganism = require('../organisms/organism-user')
+    UserOrganism = require('../organisms/organism-user'),
+    bcrypt = require('bcrypt')
 
 /**
  * @description
@@ -54,6 +55,15 @@ Actions.doCreate = (req, res) => {
 
 };
 
+/**
+ * @description
+ * Authenticate a user returning his info and a valid token
+ *
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+
 Actions.doAuthentication = (req, res) => {
 
     /**
@@ -104,5 +114,111 @@ Actions.doAuthentication = (req, res) => {
         })
 
 };
+
+/**
+ * @description
+ * List users with pagination options.
+ *
+ * @param req
+ * @param res
+ */
+
+Actions.doList = (req, res) => {
+    const options = {
+        select: '_id email',
+        page: parseInt(req.query.page) || 1,
+        limit: parseInt(req.query.limit) || 10
+    }
+
+    UserOrganism.paginate({}, options, (err, docs) => {
+        if (err) return callback('Error listing documents.', null, res)
+        callback(null, docs, res)
+    })
+}
+
+/**
+ * @description
+ * List user by ID. Note that the result is not an array anymore.
+ *
+ * @param req
+ * @param res
+ */
+
+Actions.doListById = (req, res) => {
+    UserOrganism.findOne({_id: req.params.id}, (err, doc) => {
+        if (err) return callback('Error listing document.', null, res)
+        callback(null, doc, res)
+    })
+}
+
+/**
+ * @description
+ * Simply update a user information. Note that password is not required, but when required
+ * the same rules are applied.
+ *
+ * For now every user with a valid token can update a document. If required, the best thing to do here is implement either a new auth middleware
+ * or something such as ACL rules.
+ *
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+
+Actions.doUpdate = (req, res) => {
+
+    /**
+     * Validate required fields
+     */
+
+    req.checkBody('email', 'Please add a valid email address').isEmail();
+
+    const errors = req.validationErrors();
+    if (errors) return callback(errors, null, res)
+
+    const query = {_id: req.params.id},
+        log = require('../../Log').logger(`${req.body.email}.log`),
+        update = {
+            $set: {
+                updated_at: Date.now(),
+                email: req.body.email
+            }
+        }
+
+    // If has password, as long is not required, we must encrypt it
+    if (req.body.password) {
+        if (req.body.password.length < 6) return callback('Password must have at least 6 characters', null, res)
+        update.$set.password = bcrypt.hashSync(req.body.password, 10);
+    }
+
+    UserOrganism.update(query, update, (err, doc) => {
+        log.info('Response for account update', err, doc)
+
+        if (err) return callback('Error updating document. Please check the logs.', null, res)
+        callback(null, doc, res)
+    })
+}
+
+/**
+ * @description
+ * Delete user by ID.
+ * For now every user with a valid token can delete a document. If required, the best thing to do here is implement either a new auth middleware
+ * or something such as ACL rules.
+ *
+ * @param req
+ * @param res
+ */
+
+Actions.doDelete = (req, res) => {
+
+    const query = {_id: req.params.id},
+        log = require('../../Log').logger(`${req.body.email}.log`)
+
+    UserOrganism.remove(query, (err, doc) => {
+        log.info('Response for account delete', err, doc)
+
+        if (err) return callback('Error deleting document. Please check the logs.', null, res)
+        callback(null, {message: 'User deleted successfully'}, res)
+    })
+}
 
 module.exports = Actions;
