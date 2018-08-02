@@ -4,7 +4,9 @@ const createError = require('http-errors'),
     express = require('express'),
     path = require('path'),
     cookieParser = require('cookie-parser'),
-    logger = require('morgan')
+    logger = require('morgan'),
+    paginate = require('express-paginate'),
+    expressValidator = require('express-validator')
 
 const indexRouter = require('./routes/index'),
     apiRouter = require('./routes/api')
@@ -12,6 +14,8 @@ const indexRouter = require('./routes/index'),
 const app = express()
 
 require('./config/database')
+
+app.use(paginate.middleware(10, 50));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -33,6 +37,16 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(expressValidator({
+    customValidators: {
+        isArray: (value) => {
+            return Array.isArray(value);
+        },
+        isArrayLengthValid: (array) => {
+            return array.length == 2
+        }
+    }
+}))
 
 app.use('/', indexRouter)
 app.use('/api/v1', apiRouter)
