@@ -85,8 +85,8 @@ Actions.doAuthentication = (req, res) => {
 
                 if (!err && isMatch) {
 
-                    const expiresIn = process.env.EXPIRES_IN ? process.env.EXPIRES_IN : require('../../../env').settings.EXPIRES_IN,
-                        secret = process.env.SECRET ? process.env.SECRET : require('../../../env').settings.SECRET
+                    const expiresIn = process.env.EXPIRES_IN || require('../../../env').settings.EXPIRES_IN,
+                        secret = process.env.SECRET || require('../../../env').settings.SECRET
 
                     const token = jwt.sign({doc}, secret, {
                         expiresIn: expiresIn
