@@ -195,7 +195,7 @@ Actions.doUpdate = (req, res) => {
         log.info('Response for account update', err, doc)
 
         if (err) return callback('Error updating document. Please check the logs.', null, res)
-        callback(null, doc, res)
+        callback(null, {message: 'User updated successfully'}, res)
     })
 }
 
