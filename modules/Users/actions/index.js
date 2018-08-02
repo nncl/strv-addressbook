@@ -54,6 +54,15 @@ Actions.doCreate = (req, res) => {
 
 };
 
+/**
+ * @description
+ * Authenticate a user returning his info and a valid token
+ *
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+
 Actions.doAuthentication = (req, res) => {
 
     /**
@@ -104,6 +113,14 @@ Actions.doAuthentication = (req, res) => {
         })
 
 };
+
+/**
+ * @description
+ * List users with pagination options.
+ *
+ * @param req
+ * @param res
+ */
 
 Actions.doList = (req, res) => {
     const options = {
