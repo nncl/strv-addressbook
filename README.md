@@ -63,6 +63,8 @@ We've implemented some useful tests until now. You can check them running:
 npm test
 ```
 
+The tests are connected with Heroku CI, which is also connected with the github repo.
+
 ## Documentation
 
 We've documented this project on [Swagger](https://app.swaggerhub.com/apis/nncl/strv-address-book).
