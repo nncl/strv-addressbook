@@ -59,6 +59,7 @@ Accessing on browser through this url: `http://localhost:8000`.
 
 We've implemented some useful tests until now. You can check them running:
 
+You can check more [here](https://devcenter.heroku.com/articles/heroku-ci).
 ```
 npm test
 ```
