@@ -45,7 +45,7 @@ Actions.doCreate = (req, res) => {
         .isEmail()
         .withMessage('Please add a valid email address')
 
-    req.checkBody('mobile', 'Mobile phone number is required')
+    req.checkBody('mobilenumber', 'Mobile phone number is required')
         .notEmpty()
         .isMobilePhone('any')
         .withMessage('Please add a valid phone number')
