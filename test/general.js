@@ -14,7 +14,12 @@ const chai = require('chai'),
     UserOrganism = require('../modules/Users/organisms/organism-user'),
     apiUrl = process.env.APP_URI || require('../env').settings.APP_URI
 
-let token = null
+// Fake data used to register on the database
+let token = null,
+    user = {
+        email: `${Date.now()}@strv.com`,
+        password: '123123'
+    }
 
 chai.use(chaiHttp)
 
@@ -58,12 +63,6 @@ describe('Users', () => {
 
     describe('/POST user', () => {
         it('it should POST a user', (done) => {
-
-            const user = {
-                email: `${Date.now()}@strv.com`,
-                password: '123123'
-            }
-
             chai.request(apiUrl)
                 .post(`/users`)
                 .send(user)
@@ -80,12 +79,6 @@ describe('Users', () => {
 
     describe('/POST user authentication', () => {
         it('it should authenticate a user', (done) => {
-
-            const user = {
-                email: 'caue@strv.com',
-                password: '123123'
-            }
-
             chai.request(apiUrl)
                 .post(`/users/auth`)
                 .send(user)

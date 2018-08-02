@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --exit --timeout 10000"
   },
   "dependencies": {
     "bcrypt": "^3.0.0",
