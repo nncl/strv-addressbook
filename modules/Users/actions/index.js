@@ -131,8 +131,23 @@ Actions.doList = (req, res) => {
     }
 
     UserOrganism.paginate({}, options, (err, docs) => {
-        if (err) return callback('Error listing documents. Please check the logs.', null, res)
+        if (err) return callback('Error listing documents.', null, res)
         callback(null, docs, res)
+    })
+}
+
+/**
+ * @description
+ * List user by ID. Note that the result is not an array anymore.
+ *
+ * @param req
+ * @param res
+ */
+
+Actions.doListById = (req, res) => {
+    UserOrganism.findOne({_id: req.params.id}, (err, doc) => {
+        if (err) return callback('Error listing document.', null, res)
+        callback(null, doc, res)
     })
 }
 
