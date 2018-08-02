@@ -5,8 +5,7 @@
 'use strict'
 
 const mongoose = require('mongoose'),
-    env = require('../env'),
-    db_url = process.env.MONGO_URI ? process.env.MONGO_URI :  env.settings.MONGO_URI
+    db_url = process.env.MONGO_URI ? process.env.MONGO_URI :  require('../env').settings.MONGO_URI
 
 mongoose.connect(db_url)
 
