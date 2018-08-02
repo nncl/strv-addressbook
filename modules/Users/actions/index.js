@@ -41,9 +41,12 @@ Actions.doCreate = (req, res) => {
     const errors = req.validationErrors();
     if (errors) return callback(errors, null, res)
 
-    const user = new UserOrganism(req.body)
+    const user = new UserOrganism(req.body),
+        log = require('../../Log').logger(`${user.email}.log`)
 
     user.save((err, doc) => {
+        log.info('Response for account creation', err, doc)
+
         if (err) return callback('Error creating user. Please check the logs.', null, res)
         callback(null, 'User created successfully', res)
     })

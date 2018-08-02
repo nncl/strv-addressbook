@@ -5,10 +5,10 @@
  * User's molecule
  */
 
-const mongoose = require('mongoose')
-    , Schema = mongoose.Schema
-    , bcrypt = require('bcrypt')
-    , paginate = require('mongoose-paginate')
+const mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    bcrypt = require('bcrypt'),
+    paginate = require('mongoose-paginate')
 
 const MoleculeSchema = new Schema({
     email: require('../../atoms/atom-email'),
