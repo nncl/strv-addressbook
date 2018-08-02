@@ -12,7 +12,7 @@ const chai = require('chai'),
     server = require('../bin/www'),
     should = chai.should(),
     UserOrganism = require('../modules/Users/organisms/organism-user'),
-    apiUrl = 'http://localhost:3000/api/v1'
+    apiUrl = process.env.APP_URI || require('../env').settings.APP_URI
 
 let token = null
 
