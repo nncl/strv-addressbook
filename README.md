@@ -55,6 +55,10 @@ PORT=8000 npm start
 
 Accessing on browser through this url: `http://localhost:8000`.
 
+#### Postman
+
+This project has been worked with Postman to test the routes, so we decided to make every developer's life easier offering the collections for [download](https://www.getpostman.com/collections/14a2dc481ef6c2c99040).
+
 ### Tests
 
 We've implemented some useful tests until now. You can check them running:
