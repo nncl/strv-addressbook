@@ -54,7 +54,7 @@ Actions.doCreate = (req, res) => {
     if (errors) return callback(errors, null, res, 422)
 
     app.database().ref('/contacts').push(req.body).then(() => {
-        return callback(null, 'Contact created successfully', res)
+        return callback(null, {message: 'Contact created successfully'}, res)
     })
 
 }
