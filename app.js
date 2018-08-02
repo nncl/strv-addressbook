@@ -1,3 +1,5 @@
+'use strict'
+
 const createError = require('http-errors'),
     express = require('express'),
     path = require('path'),
@@ -8,6 +10,8 @@ const indexRouter = require('./routes/index'),
     apiRouter = require('./routes/api')
 
 const app = express()
+
+require('./config/database')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

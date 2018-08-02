@@ -3,6 +3,6 @@
 const router = require('express').Router(),
     Actions = require('./actions')
 
-router.get('/', Actions.doGet);
+router.get('/', Actions.doGet)
 
-module.exports = router;
+module.exports = router

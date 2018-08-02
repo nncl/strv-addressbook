@@ -1,4 +1,4 @@
 module.exports.settings = {
-    "title" : "STRV Address Book API",
-    "mongodbUrl" : ""
+    "TITLE" : "STRV Address Book API",
+    "MONGO_URI" : "" // should be on heroku env variables
 }
