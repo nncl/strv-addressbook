@@ -55,6 +55,14 @@ PORT=8000 npm start
 
 Accessing on browser through this url: `http://localhost:8000`.
 
+### Tests
+
+We've implemented some useful tests until now. You can check them running:
+
+```
+npm test
+```
+
 ## Documentation
 
 We've documented this project on [Swagger](https://app.swaggerhub.com/apis/nncl/strv-address-book).
