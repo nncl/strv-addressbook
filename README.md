@@ -63,7 +63,6 @@ This project has been worked with Postman to test the routes, so we decided to m
 
 We've implemented some useful tests until now. You can check them running:
 
-You can check more [here](https://devcenter.heroku.com/articles/heroku-ci).
 ```
 npm test
 ```
@@ -71,6 +70,8 @@ npm test
 The tests are connected with Heroku CI, which is also connected with the github repo.
 
 Every commit is being checked, as you can see when pushing it to github.
+
+You can check more [here](https://devcenter.heroku.com/articles/heroku-ci).
 
 ## Documentation
 
@@ -82,4 +83,4 @@ For all updates we create branches, as you might know. Depending on the type of 
 
 E.g.: if somehow the sign in resource is not working properly anymore, we create a branch called `fix/resource-signin`.
 
-Knowing this we also update the api version on `package.json` and Swaggerhub.
+Knowing this we also update the api version on `package.json` and on Swaggerhub.
