@@ -219,6 +219,7 @@ Actions.doDelete = (req, res) => {
         log.info('Response for account delete', err, doc)
 
         if (err) return callback('Error deleting document. Please check the logs.', null, res)
+        if (!doc.n) return callback('User not found', null, res, 404)
         callback(null, {message: 'User deleted successfully'}, res)
     })
 }
